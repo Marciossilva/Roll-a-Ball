@@ -1,17 +1,34 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : MonoBehaviour
+{
+	
+
+	public float speed;
+	public Text countText;
+	public Text winText;
+
 
 	private Rigidbody rb;
-	public float speed;
+	private int count;
 
-	void Start() {
-		rb = GetComponent<Rigidbody>();
+	void Start ()
+	{
+		rb = GetComponent<Rigidbody> ();
+
+		SetCounttext ();
+		winText.text = "";
+
 	}
 
-	void FixedUpdate(){
+
+
+	void FixedUpdate ()
+	{
 		float moveHorizontal = Input.GetAxis ("Horizontal");
 		float moveVertical = Input.GetAxis ("Vertical");
 
@@ -20,10 +37,28 @@ public class PlayerController : MonoBehaviour {
 		rb.AddForce (movement * speed);
 	}
 
-	void OnTriggerEnter(Collider other) {
+	void OnTriggerEnter (Collider other)
+	{
 
-		if(other.gameObject.CompareTag("PickUp")) {
-			other.gameObject.SetActive(false);
+		if (other.gameObject.CompareTag ("PickUp")) {
+			
+			other.gameObject.SetActive (false);
+			count++;
+			SetCounttext ();
+		
 		}
 	}
+
+	void SetCounttext ()
+	{
+		countText.text = "Count: " + count.ToString ();
+		if (count >=9) {
+			winText.text = "Você Ganhou!";
+
+		}
+	}
+
+
+
+
 }
